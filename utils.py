@@ -34,7 +34,7 @@ def read_data_bza(file):
     }
     return data
 
-def read_data_bza_txt(file):
+def read_data_bza_txt_long(file):
     df_eis = pd.read_csv(file, sep="\t",skiprows=10, encoding="cp949")
     f = open(file)
     lines=f.readlines()
@@ -43,8 +43,8 @@ def read_data_bza_txt(file):
     vol=float(vol_str)
     print(vol)
     data = {
-        'zre': df_eis['Zre(ohm)'].values[:],
-        '-zim': -df_eis['Zim(ohm)'].values[:],
+        'zre': df_eis['Zre(ohm)'].values[[5,11,14]],
+        '-zim': -df_eis['Zim(ohm)'].values[[5,11,14]],
         'voltage':vol 
     }
     return data

@@ -174,7 +174,7 @@ class Handler(FileSystemEventHandler):
                         self.historical_alarm=np.append(self.historical_alarm, diag_result['diagnosis_alarm'])
                         key= self.database.upload_feature(self.ch_num, self.current_time, self.idx, measure['voltage'], self.vol_max, self.vol_min, calibrated, diag_result) #feature DB 전송
                         prev_json_db=self.database.select_arb_data('sendjson','', self.total_ch_num, 'Ch')
-                        print('prev_json_db:', prev_json_db)
+                        print('old prev json db:', prev_json_db)
                         # 
                         processdataName=key #임시로 지정
                         if prev_json_db == ():
@@ -207,9 +207,12 @@ class Handler(FileSystemEventHandler):
                                 ##
                                 self.database.upload_tempjson(self.name_json_db, self.ch_num, key, self.current_time, measure, calibrated, diag_result)
                             else:
+                                print('else-else-else')
                                 self.database.upload_tempjson(self.name_json_db, self.ch_num, key, self.current_time, measure, calibrated, diag_result)
                                 self.database = dbconnect()
-                                if len(ch_measure) == self.total_ch_num:
+                                print(len(ch_measure))
+                                print(self.total_ch_num)
+                                if len(ch_measure) + 1 == self.total_ch_num:
                                     print('measurement complete')
                                     processdata=self.database.download_tempjson(self.name_json_db)
                                     res = sendData(processdata, processdataName)
